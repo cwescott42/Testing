@@ -19,6 +19,8 @@ import org.junit.runners.Parameterized.Parameters;
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 
 @RunWith(Parameterized.class)
 public class GoogleTest {
@@ -59,10 +61,13 @@ public class GoogleTest {
 	System.setProperty("webdriver.gecko.driver", "resource/geckodriver.exe");
 	//Chrome driver
 	System.setProperty("webdriver.chrome.driver", "resource/chromedriver.exe");
-	//I am using Chrome
-	driver = new ChromeDriver();
+	//IE driver
+	System.setProperty("webdriver.ie.driver", "resource/IEDriverServer.exe");
+	//https://www.joecolantonio.com/2013/08/01/selenium-webdriver-fix-for-3-common-ie-errors/
+	//Look at solution 1.
+	driver = new InternetExplorerDriver();
 	baseUrl = "http://www.google.com";
-	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	driver.manage().timeouts().implicitlyWait(35, TimeUnit.SECONDS);
     
   }
 
@@ -83,7 +88,7 @@ public class GoogleTest {
 
   @After
   public void tearDown() throws Exception {
-    driver.close();
+    driver.quit();
     String verificationErrorString = verificationErrors.toString();
     if (!"".equals(verificationErrorString)) {
       fail(verificationErrorString);
